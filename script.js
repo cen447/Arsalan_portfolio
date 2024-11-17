@@ -226,5 +226,79 @@ window.addEventListener("scroll", () => {
   });
 });
 
-// Start fade-out after initial load
-startFade();
+document.addEventListener("DOMContentLoaded", () => {
+  const coords = { x: 0, y: 0 };
+  const circles = document.querySelectorAll(".circle");
+
+  // Assign bright red color and initialize position
+  circles.forEach((circle) => {
+    circle.x = 0;
+    circle.y = 0;
+    circle.style.backgroundColor = "rgba(255, 0, 0, 1)"; // Bright red
+  });
+
+  // Update mouse coordinates on movement
+  window.addEventListener("mousemove", (e) => {
+    coords.x = e.clientX;
+    coords.y = e.clientY;
+  });
+
+  // Animate circles
+  function animateCircles() {
+    let x = coords.x;
+    let y = coords.y;
+
+    circles.forEach((circle, index) => {
+      // Position each circle
+      circle.style.left = x - 6 + "px"; // Adjust for smaller size
+      circle.style.top = y - 6 + "px"; // Adjust for smaller size
+
+      // Scale effect for trailing circles
+      circle.style.scale = (circles.length - index) / circles.length;
+
+      // Store current position
+      circle.x = x;
+      circle.y = y;
+
+      // Move towards the next circle position
+      const nextCircle = circles[index + 1] || circles[0];
+      x += (nextCircle.x - x) * 0.3;
+      y += (nextCircle.y - y) * 0.3;
+    });
+
+    // Loop the animation
+    requestAnimationFrame(animateCircles);
+  }
+
+  // Trigger pulsating effect on click
+  window.addEventListener("click", () => {
+    circles.forEach((circle) => {
+      circle.classList.add("pulsating");
+
+      // Remove the pulsating effect after a delay
+      setTimeout(() => {
+        circle.classList.remove("pulsating");
+      }, 500);
+    });
+  });
+
+  // Hide cursor when hovering over YouTube videos (not on the landing page)
+  const youtubeFrames = document.querySelectorAll("iframe");
+
+  youtubeFrames.forEach((iframe) => {
+    iframe.addEventListener("mouseenter", () => {
+      circles.forEach((circle) => {
+        circle.style.opacity = "0"; // Make circles invisible
+      });
+    });
+
+    iframe.addEventListener("mouseleave", () => {
+      circles.forEach((circle) => {
+        circle.style.opacity = "1"; // Restore visibility
+      });
+    });
+  });
+
+  // Start animation
+  animateCircles();
+});
