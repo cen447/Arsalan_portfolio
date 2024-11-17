@@ -671,3 +671,51 @@ footer p {
     font-size: 2rem;
   }
 }
+
+/* Audio Control Button */
+.audio-control {
+  position: fixed;
+  bottom: 20px; /* Adjust position to bottom-left */
+  left: 20px;
+  background: transparent; /* Flat design */
+  border: none; /* No border */
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0.3; /* Start with more fade */
+  transition: opacity 0.5s ease, transform 0.3s ease;
+  z-index: 1000;
+}
+
+.audio-control:hover {
+  opacity: 1; /* Fully visible on hover */
+  transform: scale(1.1); /* Subtle zoom-in effect */
+}
+
+.audio-control span {
+  font-size: 1.2rem; /* Smaller, thinner icon */
+  font-weight: 300; /* Make it lighter */
+  color: rgba(255, 255, 255, 0.8); /* Softer white */
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.5); /* Subtle glow */
+  transition: text-shadow 0.3s ease, color 0.3s ease;
+}
+
+.audio-control:hover span {
+  text-shadow: 0 0 20px rgba(255, 255, 255, 1); /* Brighter glow on hover */
+  color: #fff; /* Full white */
+}
+
+/* Fade-in Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+}

@@ -105,3 +105,99 @@ function showThankYou(event) {
   // Optionally, submit the form to FormSubmit
   form.submit();
 }
+
+// Select the audio element and control button            audio button
+// Select the audio element and control button
+const audio = document.getElementById("background-audio");
+const audioControl = document.getElementById("audio-control");
+const audioIcon = document.getElementById("audio-icon");
+const videos = document.querySelectorAll("iframe"); // Select all video elements
+
+// Set up audio and default state
+audio.volume = 0.5; // Moderate volume
+let isPlaying = false; // Assume audio is not playing by default
+
+// Function to enable audio on user interaction
+function enableAudio() {
+  if (!isPlaying) {
+    audio
+      .play()
+      .then(() => {
+        audioIcon.textContent = "❚❚"; // Pause icon
+        isPlaying = true;
+      })
+      .catch((error) => {
+        console.error("Audio playback failed:", error);
+      });
+  }
+  document.removeEventListener("click", enableAudio);
+  document.removeEventListener("scroll", enableAudio);
+}
+
+// Add interaction listeners to start audio
+document.addEventListener("click", enableAudio);
+document.addEventListener("scroll", enableAudio);
+
+// Fade the button after a delay
+let fadeTimeout;
+function startFade() {
+  fadeTimeout = setTimeout(() => {
+    audioControl.style.opacity = "0.15"; // Fade-out to almost invisible
+  }, 3000); // Fade after 3 seconds
+}
+
+// Cancel fade on hover
+audioControl.addEventListener("mouseover", () => {
+  clearTimeout(fadeTimeout);
+  audioControl.style.opacity = "1"; // Reset opacity
+  audioControl.style.transform = "scale(1.1)"; // Subtle zoom-in on hover
+});
+
+// Resume fade on mouse leave
+audioControl.addEventListener("mouseleave", () => {
+  audioControl.style.transform = "scale(1)"; // Reset scale
+  startFade();
+});
+
+// Toggle audio playback
+function toggleAudio() {
+  if (isPlaying) {
+    audio.pause();
+    audioIcon.textContent = "▶"; // Flat play icon
+    isPlaying = false;
+  } else {
+    audio
+      .play()
+      .then(() => {
+        audioIcon.textContent = "❚❚"; // Flat pause icon
+        isPlaying = true;
+      })
+      .catch((error) => {
+        console.error("Failed to play audio:", error);
+        alert("Unable to play audio. Please check browser settings.");
+      });
+  }
+}
+
+// Pause background audio when videos play
+videos.forEach((video) => {
+  video.addEventListener("play", () => {
+    if (isPlaying) {
+      audio.pause();
+      isPlaying = false;
+    }
+  });
+});
+
+// Resume background audio when videos stop
+videos.forEach((video) => {
+  video.addEventListener("pause", () => {
+    if (!isPlaying) {
+      audio.play().catch(console.error);
+      isPlaying = true;
+    }
+  });
+});
+
+// Start fade-out after initial load
+startFade();
