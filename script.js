@@ -43,7 +43,10 @@ function openModal(image) {
   // Set modal content
   modal.style.display = "flex";
   modalImg.src = image.src;
-  caption.textContent = image.alt;
+  const caption = document.getElementById("caption"); // Ensure this exists
+  if (caption) {
+    caption.textContent = image.alt;
+  }
 }
 
 // Close Modal Function
@@ -77,27 +80,28 @@ function updateModalImage() {
   setTimeout(() => {
     const currentImage = galleryImages[currentImageIndex];
     modalImg.src = currentImage.src;
-    caption.textContent = currentImage.alt;
+    if (caption) {
+      caption.textContent = currentImage.alt;
+    }
 
     // Add fade-in animation
     modalImg.style.animation = "fadeIn 0.5s ease";
   }, 500); // Match animation duration
 }
 
-<script>
-  function showThankYou(event) {
-    // Prevent the form from redirecting
-    event.preventDefault();
+// Show Thank You Message
+function showThankYou(event) {
+  // Prevent the form from redirecting
+  event.preventDefault();
 
-    // Hide the form
-    const form = document.getElementById("contact-form");
-    form.style.display = "none";
+  // Hide the form
+  const form = document.getElementById("contact-form");
+  form.style.display = "none";
 
-    // Show the thank-you message
-    const thankYouMessage = document.getElementById("thank-you-message");
-    thankYouMessage.style.display = "block";
+  // Show the thank-you message
+  const thankYouMessage = document.getElementById("thank-you-message");
+  thankYouMessage.style.display = "block";
 
-    // Optionally, submit the form to FormSubmit
-    form.submit();
-  }
-</script>
+  // Optionally, submit the form to FormSubmit
+  form.submit();
+}
