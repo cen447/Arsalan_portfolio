@@ -38,13 +38,13 @@
       <div class="video-container">
         <!-- Embedded YouTube Video -->
         <iframe
-          id="bg-video"
-          src="https://www.youtube.com/embed/DmNL0NGOODA?si=PgQzGR7QjP-rvY1A&amp;start=8&autoplay=1&mute=1&loop=1&playlist=DmNL0NGOODA&controls=0&showinfo=0&modestbranding=1&iv_load_policy=3"
-          frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; autoplay"
-          allowfullscreen
-          referrerpolicy="strict-origin-when-cross-origin"
-        ></iframe>
+        id="bg-video"
+        src="https://www.youtube.com/embed/DmNL0NGOODA?autoplay=1&mute=1&loop=1&playlist=DmNL0NGOODA&controls=0&showinfo=0&modestbranding=1&iv_load_policy=3&start=8"
+        frameborder="0"
+        allow="autoplay; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen
+        referrerpolicy="strict-origin-when-cross-origin"
+      ></iframe>      
       </div>
       <div class="overlay"></div>
       <div class="landing-content">
@@ -58,12 +58,12 @@
         <div class="bar3"></div>
       </div>
       <!-- Audio Player -->
-      <audio id="background-audio" loop>
+      <audio id="background-audio" loop autoplay preload="auto">
         <source src="soundtracks/Over%20the%20Garden%20Wall%20-%20Into%20The%20Unknown%20(Theme%20Song%20-%20Full%20Version%20).mp3" type="audio/mpeg" />
         Your browser does not support the audio element.
       </audio>
-      <!-- Audio Control Button -->
-      <div id="audio-control" class="audio-control" onclick="toggleAudio()" title="Playing Audio">
+      
+      <div id="audio-control" class="audio-control" onclick="toggleAudio()" title="Play/Pause Sound">
         <span id="audio-icon">❚❚</span>
       </div>
     </section>

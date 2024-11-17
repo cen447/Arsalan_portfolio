@@ -106,16 +106,25 @@ function showThankYou(event) {
   form.submit();
 }
 
-// Select the audio element and control button            audio button
 // Select the audio element and control button
 const audio = document.getElementById("background-audio");
 const audioControl = document.getElementById("audio-control");
 const audioIcon = document.getElementById("audio-icon");
-const videos = document.querySelectorAll("iframe"); // Select all video elements
 
 // Set up audio and default state
-audio.volume = 0.5; // Moderate volume
+audio.volume = 0.5; // Default moderate volume
 let isPlaying = false; // Assume audio is not playing by default
+
+// Try to autoplay audio on page load
+audio
+  .play()
+  .then(() => {
+    isPlaying = true;
+    audioIcon.textContent = "❚❚"; // Default to pause icon
+  })
+  .catch((error) => {
+    console.warn("Autoplay blocked. Waiting for user interaction:", error);
+  });
 
 // Function to enable audio on user interaction
 function enableAudio() {
@@ -123,18 +132,19 @@ function enableAudio() {
     audio
       .play()
       .then(() => {
-        audioIcon.textContent = "❚❚"; // Pause icon
         isPlaying = true;
+        audioIcon.textContent = "❚❚"; // Pause icon
       })
       .catch((error) => {
         console.error("Audio playback failed:", error);
       });
   }
+  // Remove interaction listeners after enabling audio
   document.removeEventListener("click", enableAudio);
   document.removeEventListener("scroll", enableAudio);
 }
 
-// Add interaction listeners to start audio
+// Add interaction listeners to start audio if autoplay fails
 document.addEventListener("click", enableAudio);
 document.addEventListener("scroll", enableAudio);
 
@@ -142,7 +152,7 @@ document.addEventListener("scroll", enableAudio);
 let fadeTimeout;
 function startFade() {
   fadeTimeout = setTimeout(() => {
-    audioControl.style.opacity = "0.15"; // Fade-out to almost invisible
+    audioControl.style.opacity = "0.2"; // Fade-out to almost invisible
   }, 3000); // Fade after 3 seconds
 }
 
@@ -179,22 +189,39 @@ function toggleAudio() {
   }
 }
 
-// Pause background audio when videos play
-videos.forEach((video) => {
-  video.addEventListener("play", () => {
-    if (isPlaying) {
-      audio.pause();
-      isPlaying = false;
+// Function to fade audio volume to target level
+function fadeAudioVolume(targetVolume, duration = 1000) {
+  const step = 0.05; // Step size for volume change
+  const interval = duration / (audio.volume / step); // Calculate interval based on duration
+  const adjustVolume = setInterval(() => {
+    const currentVolume = parseFloat(audio.volume.toFixed(2));
+    if (currentVolume > targetVolume) {
+      audio.volume = Math.max(currentVolume - step, targetVolume);
+    } else if (currentVolume < targetVolume) {
+      audio.volume = Math.min(currentVolume + step, targetVolume);
     }
-  });
-});
+    if (audio.volume === targetVolume) {
+      clearInterval(adjustVolume);
+    }
+  }, interval);
+}
 
-// Resume background audio when videos stop
-videos.forEach((video) => {
-  video.addEventListener("pause", () => {
-    if (!isPlaying) {
-      audio.play().catch(console.error);
-      isPlaying = true;
+// Detect which section is in view
+const sections = document.querySelectorAll("section");
+window.addEventListener("scroll", () => {
+  sections.forEach((section) => {
+    const rect = section.getBoundingClientRect();
+    if (
+      rect.top <= window.innerHeight / 2 &&
+      rect.bottom >= window.innerHeight / 2
+    ) {
+      if (section.id.startsWith("video")) {
+        // Fade audio to 0 volume on video sections
+        fadeAudioVolume(0, 1000); // 1-second fade
+      } else if (["landing", "gallery", "contact"].includes(section.id)) {
+        // Restore full volume on non-video sections
+        fadeAudioVolume(0.5, 1000); // 1-second fade
+      }
     }
   });
 });
