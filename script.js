@@ -226,169 +226,79 @@ window.addEventListener("scroll", () => {
   });
 });
 
-// Create Cursor Elements
-const customCursor = document.createElement("div");
-customCursor.classList.add("custom-cursor");
+document.addEventListener("DOMContentLoaded", () => {
+  const coords = { x: 0, y: 0 };
+  const circles = document.querySelectorAll(".circle");
 
-const cursorRing = document.createElement("div");
-cursorRing.classList.add("cursor-ring");
-
-const cursorDot = document.createElement("div");
-cursorDot.classList.add("cursor-dot");
-
-customCursor.appendChild(cursorRing);
-customCursor.appendChild(cursorDot);
-document.body.appendChild(customCursor);
-
-// Initialize cursor position and visibility
-customCursor.style.display = "none"; // Hide until mouse moves
-
-// Track Mouse Movement - Synchronize Cursor
-document.addEventListener("mousemove", (e) => {
-  const cursorX = e.clientX;
-  const cursorY = e.clientY;
-
-  // Ensure custom cursor is visible
-  customCursor.style.display = "block";
-
-  // Move dot immediately to mouse location
-  cursorDot.style.left = `${cursorX}px`;
-  cursorDot.style.top = `${cursorY}px`;
-
-  // Smoothly move the cursor ring with a slight delay
-  cursorRing.style.transform = `translate(${cursorX - 30}px, ${
-    cursorY - 30
-  }px)`;
-});
-
-// Ripple Effect on Click
-document.addEventListener("click", (e) => {
-  const ripple = document.createElement("div");
-  ripple.classList.add("ripple-effect");
-
-  // Position ripple at the click location
-  ripple.style.left = `${e.clientX}px`;
-  ripple.style.top = `${e.clientY}px`;
-
-  document.body.appendChild(ripple);
-
-  // Remove ripple after animation ends
-  ripple.addEventListener("animationend", () => {
-    ripple.remove();
+  // Assign bright red color and initialize position
+  circles.forEach((circle) => {
+    circle.x = 0;
+    circle.y = 0;
+    circle.style.backgroundColor = "rgba(255, 0, 0, 1)"; // Bright red
   });
-});
 
-// Prevent Cursor Issues in Embedded Videos (iframes)
-document.querySelectorAll("iframe").forEach((iframe) => {
-  iframe.addEventListener("mouseenter", () => {
-    customCursor.style.display = "none"; // Hide custom cursor when mouse enters iframe
+  // Update mouse coordinates on movement
+  window.addEventListener("mousemove", (e) => {
+    coords.x = e.clientX;
+    coords.y = e.clientY;
   });
-  iframe.addEventListener("mouseleave", () => {
-    customCursor.style.display = "block"; // Show custom cursor when mouse leaves iframe
-  });
-});
 
-// Ripple Effect on Click (with gallery-specific handling)
-document.addEventListener("click", (e) => {
-  const ripple = document.createElement("div");
-  ripple.classList.add("ripple-effect");
+  // Animate circles
+  function animateCircles() {
+    let x = coords.x;
+    let y = coords.y;
 
-  // Use page coordinates for ripple placement
-  ripple.style.left = `${e.pageX}px`;
-  ripple.style.top = `${e.pageY}px`;
+    circles.forEach((circle, index) => {
+      // Position each circle
+      circle.style.left = x - 6 + "px"; // Adjust for smaller size
+      circle.style.top = y - 6 + "px"; // Adjust for smaller size
 
-  document.body.appendChild(ripple);
+      // Scale effect for trailing circles
+      circle.style.scale = (circles.length - index) / circles.length;
 
-  // Remove ripple after animation ends
-  ripple.addEventListener("animationend", () => {
-    ripple.remove();
-  });
-});
+      // Store current position
+      circle.x = x;
+      circle.y = y;
 
-// Add ripple effect on gallery items
-document.querySelectorAll("#gallery .grid-item").forEach((item) => {
-  item.addEventListener("click", (e) => {
-    // Prevent the ripple effect from being blocked by event propagation
-    e.stopPropagation();
+      // Move towards the next circle position
+      const nextCircle = circles[index + 1] || circles[0];
+      x += (nextCircle.x - x) * 0.3;
+      y += (nextCircle.y - y) * 0.3;
+    });
 
-    const ripple = document.createElement("div");
-    ripple.classList.add("ripple-effect");
+    // Loop the animation
+    requestAnimationFrame(animateCircles);
+  }
 
-    // Use coordinates relative to the clicked element
-    const rect = item.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
+  // Trigger pulsating effect on click
+  window.addEventListener("click", () => {
+    circles.forEach((circle) => {
+      circle.classList.add("pulsating");
 
-    ripple.style.left = `${x}px`;
-    ripple.style.top = `${y}px`;
-    item.appendChild(ripple);
-
-    // Remove ripple after animation ends
-    ripple.addEventListener("animationend", () => {
-      ripple.remove();
+      // Remove the pulsating effect after a delay
+      setTimeout(() => {
+        circle.classList.remove("pulsating");
+      }, 500);
     });
   });
-});
 
-// Track Mouse Movement - Synchronize Cursor
-document.addEventListener("mousemove", (e) => {
-  const cursorX = e.clientX;
-  const cursorY = e.clientY;
+  // Hide cursor when hovering over YouTube videos (not on the landing page)
+  const youtubeFrames = document.querySelectorAll("iframe");
 
-  // Ensure custom cursor is visible
-  customCursor.style.display = "block";
+  youtubeFrames.forEach((iframe) => {
+    iframe.addEventListener("mouseenter", () => {
+      circles.forEach((circle) => {
+        circle.style.opacity = "0"; // Make circles invisible
+      });
+    });
 
-  // Move dot immediately to mouse location
-  cursorDot.style.left = `${cursorX}px`;
-  cursorDot.style.top = `${cursorY}px`;
-
-  // Smoothly move the cursor ring with a slight delay
-  cursorRing.style.transform = `translate(${cursorX - 30}px, ${
-    cursorY - 30
-  }px)`;
-});
-
-// Prevent Custom Cursor Issues in Embedded Videos (iframes)
-document.querySelectorAll("iframe").forEach((iframe) => {
-  iframe.addEventListener("mouseenter", () => {
-    customCursor.style.display = "none"; // Hide custom cursor when mouse enters iframe
-  });
-  iframe.addEventListener("mouseleave", () => {
-    customCursor.style.display = "block"; // Show custom cursor when mouse leaves iframe
-  });
-});
-
-// Add Custom Cursor Inside Video Frames (Workaround)
-document.querySelectorAll("iframe").forEach((iframe) => {
-  // Add a transparent overlay over the iframe to capture cursor movement
-  const overlay = document.createElement("div");
-  overlay.style.position = "absolute";
-  overlay.style.top = "0";
-  overlay.style.left = "0";
-  overlay.style.width = `${iframe.offsetWidth}px`;
-  overlay.style.height = `${iframe.offsetHeight}px`;
-  overlay.style.pointerEvents = "none"; // Allow interaction with the iframe
-  overlay.style.zIndex = "1"; // Ensure it stays on top of the iframe
-
-  iframe.parentElement.style.position = "relative"; // Ensure the parent container is positioned
-  iframe.parentElement.appendChild(overlay);
-
-  overlay.addEventListener("mousemove", (e) => {
-    const rect = iframe.getBoundingClientRect();
-    const cursorX = e.clientX - rect.left;
-    const cursorY = e.clientY - rect.top;
-
-    // Update custom cursor position inside the overlay
-    cursorDot.style.left = `${cursorX + rect.left}px`;
-    cursorDot.style.top = `${cursorY + rect.top}px`;
-
-    cursorRing.style.transform = `translate(${cursorX + rect.left - 30}px, ${
-      cursorY + rect.top - 30
-    }px)`;
-    customCursor.style.display = "block"; // Ensure the cursor is visible
+    iframe.addEventListener("mouseleave", () => {
+      circles.forEach((circle) => {
+        circle.style.opacity = "1"; // Restore visibility
+      });
+    });
   });
 
-  overlay.addEventListener("mouseleave", () => {
-    customCursor.style.display = "none"; // Hide cursor when leaving the overlay
-  });
+  // Start animation
+  animateCircles();
 });

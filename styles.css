@@ -684,62 +684,44 @@ footer p {
   text-shadow: 0 0 20px rgba(255, 255, 255, 1); /* Brighter glow on hover */
   color: #fff; /* Full white */
 }
-/* Hide default cursor */
-body {
-  cursor: none; /* Disable default pointer */
-}
 
-/* Ripple Effect */
-.ripple-effect {
-  position: absolute;
-  width: 20px;
-  height: 20px;
-  border: 2px solid rgba(255, 255, 255, 0.5); /* Ripple ring */
+/* Style for the animated circles */
+.circle {
+  height: 12px; /* Smaller size */
+  width: 12px; /* Smaller size */
   border-radius: 50%;
-  transform: translate(-50%, -50%) scale(1);
-  animation: ripple-animation 0.8s ease-out; /* Smooth ripple animation */
-  pointer-events: none; /* Allow clicks to pass through */
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 9999; /* Keep on top of all elements */
+  background-color: rgba(255, 0, 0, 1); /* Bright red */
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.5); /* White glow */
+  opacity: 0.9;
+  transition: transform 0.2s ease-out;
 }
 
-@keyframes ripple-animation {
-  from {
-    transform: translate(-50%, -50%) scale(1);
+/* Pulsating effect on click */
+.circle.pulsating {
+  animation: pulsate 0.5s infinite ease-in-out;
+}
+
+@keyframes pulsate {
+  0% {
+    transform: scale(1);
     opacity: 1;
   }
-  to {
-    transform: translate(-50%, -50%) scale(10);
-    opacity: 0;
+  50% {
+    transform: scale(1.5); /* Enlarge during pulsation */
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
   }
 }
 
-/* Custom Cursor Container */
-.custom-cursor {
-  position: fixed;
-  left: 0;
-  top: 0;
-  transform: translate(-50%, -50%);
-  pointer-events: none; /* Do not block interactions */
-  z-index: 10000; /* Ensure it appears above everything */
-}
-
-/* Outer Circle (Ring) */
-.cursor-ring {
-  width: 60px;
-  height: 60px;
-  border: 2px solid rgba(255, 255, 255, 0.3); /* Subtle white ring */
-  border-radius: 50%;
-  position: absolute;
-  transition: transform 0.1s ease-out; /* Smooth movement for the ring */
-}
-
-/* Inner Dot */
-.cursor-dot {
-  width: 14px;
-  height: 14px;
-  background-color: rgba(255, 0, 0, 1); /* Bright red */
-  border-radius: 50%;
-  position: absolute;
-  transform: translate(-50%, -50%);
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.8),
-    0 0 20px rgba(255, 255, 255, 0.6); /* Subtle glow effect */
+/* Add subtle opacity differences for even circles */
+.circle-container .circle:nth-child(even) {
+  opacity: 0.8;
 }
