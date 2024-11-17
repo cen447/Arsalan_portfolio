@@ -10,6 +10,7 @@ body {
   color: #fff;
   background-color: #000;
   overflow-x: hidden;
+  cursor: none;
 }
 
 a {
@@ -171,7 +172,7 @@ li {
   position: fixed;
   width: 100%;
   height: 100vh;
-  background: rgba(0, 0, 0, 0.95);
+  background: rgba(0, 0, 0, 0.645);
   top: -100vh;
   left: 0;
   transition: top 0.5s ease;
@@ -426,20 +427,6 @@ li {
   text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
 }
 
-/* Social Links Section */
-#social-links {
-  padding: 60px 20px;
-  background-color: #000;
-  text-align: center;
-}
-
-#social-links h2 {
-  font-size: 2.5rem;
-  margin-bottom: 20px;
-  color: #fff;
-  text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
-}
-
 /* Social Container */
 .social-container {
   display: flex;
@@ -637,16 +624,6 @@ footer p {
     font-size: 0.9rem;
   }
 
-  /* Adjust carousel settings for smaller screens */
-  .instagram-carousel .slick-slide {
-    opacity: 1;
-    transform: scale(1);
-  }
-
-  .instagram-carousel .slick-center {
-    transform: scale(1);
-  }
-
   #instagram h2 {
     font-size: 2.5rem;
   }
@@ -707,15 +684,62 @@ footer p {
   text-shadow: 0 0 20px rgba(255, 255, 255, 1); /* Brighter glow on hover */
   color: #fff; /* Full white */
 }
+/* Hide default cursor */
+body {
+  cursor: none; /* Disable default pointer */
+}
 
-/* Fade-in Animation */
-@keyframes fadeIn {
+/* Ripple Effect */
+.ripple-effect {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.5); /* Ripple ring */
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(1);
+  animation: ripple-animation 0.8s ease-out; /* Smooth ripple animation */
+  pointer-events: none; /* Allow clicks to pass through */
+}
+
+@keyframes ripple-animation {
   from {
-    opacity: 0;
-    transform: scale(0.8);
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
   }
   to {
-    opacity: 0.3;
-    transform: scale(1);
+    transform: translate(-50%, -50%) scale(10);
+    opacity: 0;
   }
+}
+
+/* Custom Cursor Container */
+.custom-cursor {
+  position: fixed;
+  left: 0;
+  top: 0;
+  transform: translate(-50%, -50%);
+  pointer-events: none; /* Do not block interactions */
+  z-index: 10000; /* Ensure it appears above everything */
+}
+
+/* Outer Circle (Ring) */
+.cursor-ring {
+  width: 60px;
+  height: 60px;
+  border: 2px solid rgba(255, 255, 255, 0.3); /* Subtle white ring */
+  border-radius: 50%;
+  position: absolute;
+  transition: transform 0.1s ease-out; /* Smooth movement for the ring */
+}
+
+/* Inner Dot */
+.cursor-dot {
+  width: 14px;
+  height: 14px;
+  background-color: rgba(255, 0, 0, 1); /* Bright red */
+  border-radius: 50%;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.8),
+    0 0 20px rgba(255, 255, 255, 0.6); /* Subtle glow effect */
 }
