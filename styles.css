@@ -36,31 +36,39 @@ li {
 /* Landing Section */
 #landing {
   position: relative;
-  height: 100vh;
+  width: 100%; /* Ensure full width */
+  height: 100vh; /* Full viewport height */
   overflow: hidden;
 }
 
+/* Video Container */
 #landing .video-container {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover; /* Ensures the video covers the entire section without distortion */
+  /* object-fit: cover; */ /* Removed */
   z-index: -1; /* Places the video behind other content */
   pointer-events: none; /* Makes the video unclickable */
 }
 
+/* Embedded YouTube Video */
 #landing #bg-video {
   position: absolute;
-  top: 0;
-  left: 50%;
+  top: 50%; /* Center vertically */
+  left: 50%; /* Center horizontally */
   width: 100%;
   height: 100%;
-  transform: translateX(-50%);
+  transform: translate(
+    -50%,
+    -50%
+  ); /* Center both vertically and horizontally */
+  border: none; /* Optional: Remove iframe border */
   pointer-events: none;
 }
 
+/* Overlay */
 #landing .overlay {
   position: absolute;
   top: 0;
@@ -70,12 +78,57 @@ li {
   background: rgba(0, 0, 0, 0.4);
 }
 
+/* Landing Section */
+#landing {
+  position: relative;
+  width: 100%;
+  height: 100vh; /* Full viewport height */
+  overflow: hidden;
+}
+
+/* Video Container */
+#landing .video-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* object-fit: cover; */ /* Removed */
+  z-index: -1; /* Places the video behind other content */
+  pointer-events: none; /* Makes the video unclickable */
+}
+
+/* Embedded YouTube Video */
+#landing #bg-video {
+  position: absolute;
+  top: 0;
+  left: 0; /* Align to the left */
+  width: 100%;
+  height: 100%;
+  transform: none; /* Remove the transform */
+  border: none; /* Ensure no borders */
+  pointer-events: none;
+}
+
+/* Overlay */
+#landing .overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 0; /* Above the video */
+}
+
+/* Landing Content */
 #landing .landing-content {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   text-align: center;
+  z-index: 1; /* Above the overlay and video */
   opacity: 1;
   animation: fadeOut 5s ease-in forwards;
   animation-delay: 5s;
@@ -95,6 +148,7 @@ li {
   animation: fadeInUp 1s ease-out;
 }
 
+/* Keyframes */
 @keyframes fadeInDown {
   from {
     opacity: 0;
@@ -129,8 +183,8 @@ li {
 /* Menu Icon */
 #menu-icon {
   position: fixed;
-  top: 20px;
-  right: 30px;
+  top: 16px; /* Reduced from 20px */
+  right: 24px; /* Reduced from 30px */
   cursor: pointer;
   z-index: 10;
 }
@@ -138,25 +192,26 @@ li {
 #menu-icon .bar1,
 #menu-icon .bar2,
 #menu-icon .bar3 {
-  width: 35px;
-  height: 5px;
+  width: 28px; /* Reduced from 35px */
+  height: 4px; /* Reduced from 5px */
   background-color: #fff;
-  margin: 6px 0;
+  margin: 5px 0; /* Reduced from 6px 0 */
   transition: 0.4s;
   /* Add glow effect */
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.7); /* Reduced from 10px */
   border-radius: 5px; /* Rounded bars */
+  transform-origin: center; /* Ensure center transform origin */
 }
 
 #menu-icon:hover .bar1,
 #menu-icon:hover .bar2,
 #menu-icon:hover .bar3 {
-  box-shadow: 0 0 20px rgba(255, 255, 255, 1);
+  box-shadow: 0 0 16px rgba(255, 255, 255, 1); /* Reduced from 20px */
 }
 
 /* Rotate Menu Icon when Active */
 #menu-icon.change .bar1 {
-  transform: rotate(-45deg) translate(-9px, 6px);
+  transform: rotate(-45deg);
 }
 
 #menu-icon.change .bar2 {
@@ -164,7 +219,7 @@ li {
 }
 
 #menu-icon.change .bar3 {
-  transform: rotate(45deg) translate(-8px, -8px);
+  transform: rotate(45deg);
 }
 
 /* Navigation Menu */
@@ -256,7 +311,6 @@ li {
 .video-container .description-card p {
   font-size: 1rem;
 }
-
 /* Gallery Section */
 #gallery {
   text-align: center;
@@ -274,27 +328,56 @@ li {
 /* Image Grid */
 .image-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 15px;
   padding: 20px;
+  grid-template-columns: repeat(1, 1fr); /* Default to 1 column */
 }
 
+/* Responsive Grid Layout */
+@media (min-width: 480px) {
+  .image-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 768px) {
+  .image-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .image-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Grid Item */
 .grid-item {
   position: relative;
   overflow: hidden;
   cursor: pointer;
   border-radius: 10px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  /* Set fixed aspect ratio */
+  width: 100%;
+  padding-bottom: 170.33%; /* Adjust for desired aspect ratio */
 }
 
+/* Image Styling */
 .grid-item img {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: cover; /* Cover the container without distortion */
   border-radius: 10px;
   transition: transform 0.5s ease, box-shadow 0.5s ease;
 }
 
+/* Hover Effects */
 .grid-item:hover img {
   transform: scale(1.1); /* Slight zoom */
   box-shadow: 0 0 20px rgba(255, 255, 255, 0.8),
@@ -685,6 +768,64 @@ footer p {
   color: #fff; /* Full white */
 }
 
+#arsalan-brooding {
+  position: relative;
+  width: 100%;
+  height: 100vh; /* Fullscreen height */
+  overflow: hidden;
+}
+
+#arsalan-brooding .image-container {
+  width: 100%;
+  height: 100%;
+  opacity: 0; /* Initially invisible */
+  transform: scale(1.1); /* Slight zoom-in effect */
+  transition: opacity 1s ease-out, transform 1s ease-out;
+  will-change: opacity, transform;
+}
+
+#arsalan-brooding.visible .image-container {
+  opacity: 1; /* Fully visible */
+  transform: scale(1); /* Returns to original size */
+}
+
+#arsalan-brooding img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ensures the image covers the section without distortion */
+}
+/* Style for the animated circles */
+.circle {
+  height: 12px; /* Smaller size */
+  width: 12px; /* Smaller size */
+  border-radius: 50%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 9999; /* Keep on top of all elements */
+
+  /* Updated background color for eclipse effect */
+  background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent black */
+
+  /* Updated box-shadow for a more subtle and smoother glow */
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.4), 0 0 10px rgba(0, 0, 0, 0.2); /* Subtle black glow */
+
+  /* Reduced overall opacity for subtlety */
+  opacity: 0.7;
+
+  /* Optimizing performance */
+  will-change: transform, opacity;
+
+  /* Removed conflicting transition */
+  /* transition: transform 0.2s ease-out; */
+
+  /* Added transition for smoother manual interactions (if any) */
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 /* Style for the animated circles */
 .circle {
   height: 12px; /* Smaller size */
@@ -696,7 +837,8 @@ footer p {
   pointer-events: none;
   z-index: 9999; /* Keep on top of all elements */
   background-color: rgba(255, 0, 0, 1); /* Bright red */
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.5); /* White glow */
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.8),
+    0 0 20px rgba(255, 255, 255, 0.5); /* White glow */
   opacity: 0.9;
   transition: transform 0.2s ease-out;
 }
