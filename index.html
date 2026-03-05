@@ -55,50 +55,7 @@
       <div class="circle"></div>
       <div class="circle"></div>
     </div>
-    <!-- Landing Section with Embedded YouTube Video -->
-    <section id="landing">
-      <div class="video-container">
-        <!-- Embedded YouTube Video -->
-        <iframe
-          id="bg-video"
-          src="https://www.youtube.com/embed/DmNL0NGOODA?autoplay=1&mute=1&loop=1&playlist=DmNL0NGOODA&controls=0&showinfo=0&modestbranding=1&iv_load_policy=3&start=8"
-          frameborder="0"
-          allow="autoplay; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen
-          referrerpolicy="strict-origin-when-cross-origin"
-          aria-hidden="true"
-          tabindex="-1"
-        ></iframe>
-      </div>
-      <div class="overlay"></div>
-      <div class="landing-content">
-        <h1>Arsalan Aziz</h1>
-        <h2>Cinema Director</h2>
-      </div>
-      <div id="menu-icon" onclick="toggleMenu()">
-        <!-- Menu Icon -->
-        <div class="bar1"></div>
-        <div class="bar2"></div>
-        <div class="bar3"></div>
-      </div>
-      <!-- Audio Player -->
-      <audio id="background-audio" loop autoplay preload="auto">
-        <source
-          src="soundtracks/Over%20the%20Garden%20Wall%20-%20Into%20The%20Unknown%20(Theme%20Song%20-%20Full%20Version%20).mp3"
-          type="audio/mpeg"
-        />
-        Your browser does not support the audio element.
-      </audio>
-
-      <div
-        id="audio-control"
-        class="audio-control"
-        onclick="toggleAudio()"
-        title="Play/Pause Sound"
-      >
-        <span id="audio-icon">❚❚</span>
-      </div>
-    </section>
+   
     <!-- Arsalan Brooding Section -->
     <section id="arsalan-brooding" class="fullscreen-image-section">
       <div class="image-container">
@@ -110,7 +67,19 @@
       <div class="cursor-dot"></div>
       <div class="cursor-ring"></div>
     </div>
+<section id="landing" class="hero-split">
+  <div class="hero-left">
+    <h1>Arsalan Aziz</h1>
+    <h2>Director • Cinematographer • Creative Producer</h2>
+    <p>
+      Short about me goes here. 2–3 lines. Keep it simple.
+    </p>
+  </div>
 
+  <div class="hero-right">
+    <img src="images/me.jpg" alt="Arsalan Aziz" />
+  </div>
+</section>
     <!-- Hidden Navigation Menu -->
     <nav id="main-nav">
       <ul>
